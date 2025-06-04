@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  upload_service:
+    build:
+     context: ./upload_service
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./shared/temp_files:/app/shared/temp_files
+
+  converter_service:
+    build:
+     context: ./converter_service
+    ports:
+      - "5002:5002"
+    volumes:
+      - ./shared/temp_files:/app/shared/temp_files
+
+  notification_service:
+    build:
+     context: ./notification_service
+    ports:
+      - "5004:5004"
+
+  streamlit_ui:
+    build:
+     context: ./streamlit_ui
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./shared/temp_files:/app/shared/temp_files
+    depends_on:
+      - upload_service
+      - converter_service
+      - notification_service
