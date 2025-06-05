@@ -1,0 +1,30 @@
+# .github/workflows/docker-test.yml
+name: Build and Test Docker Services
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker containers
+        run: docker-compose build
+
+      - name: Run containers
+        run: docker-compose up -d
+
+      # Optional: Run tests or validate app here
+      # - name: Run tests
+      #   run: curl http://localhost:8501
+
+      - name: Stop containers
+        run: docker-compose down
