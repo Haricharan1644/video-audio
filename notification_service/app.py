@@ -5,6 +5,7 @@ app = Flask(__name__)
 
 @app.route('/notify', methods=['GET'])
 def notify():
+    print("conversion completed")
     return jsonify({"message": "Conversion completed successfully!"})
 
 if __name__ == "__main__":
